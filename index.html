@@ -23,6 +23,9 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(-
         padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
         display: grid; gap: 2rem; }
 .brand { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0; }
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.top a { font-size: .9rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+.top a:hover { text-decoration: underline; }
 h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.15; margin: .25rem 0 .75rem; font-weight: 700; text-wrap: balance; }
 .take { font-size: 1.1rem; max-width: 62ch; margin: 0; }
 .take b { font-weight: 600; font-variant-numeric: tabular-nums; }
@@ -64,7 +67,7 @@ footer a { color: inherit; }
 <body>
 <div class="wrap">
   <header>
-    <p class="brand">Inspired Money</p>
+    <div class="top"><p class="brand">Inspired Money</p><a href="/australia/">Australia-wide view →</a></div>
     <h1>Perth Market Pulse</h1>
     <p class="take" id="take">Loading the latest REIWA figures…</p>
     <p class="meta">Updated every Tuesday from REIWA's Perth weekly market snapshot. Changes compare the latest week with four weeks earlier.</p>

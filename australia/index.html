@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Australia Market Pulse | Inspired Money</title>
+<meta name="description" content="Housing prices, sales, home loans, building approvals and unemployment for every Australian state and territory, from ABS data.">
+<style>
+/* Layout: one centred column; summary, state scorecard table, state picker driving four charts, notes, footer. */
+:root {
+  --bg: #f5f6f3; --panel: #ffffff; --ink: #1d2622; --muted: #5b6661; --line: #dfe3df;
+  --accent: #2c7a57; --accent-2: #c46a2f; --bar: #c9d1cc; --grid: #e9ece9; --warn: #a8551c; --chip: #e8eeea;
+  --font: "Avenir Next LT Pro", "Avenir Next", Avenir, "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #121715; --panel: #1a211e; --ink: #ecf0ed; --muted: #a2ada7; --line: #2b3430;
+          --accent: #5cbf8e; --accent-2: #e59a63; --bar: #3a4540; --grid: #242c28; --warn: #f0a46d; --chip: #23302a; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 72rem; margin: 0 auto; padding-block: 2.5rem 3rem;
+        padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+        display: grid; gap: 2rem; }
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.brand { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0; }
+.top a { font-size: .9rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+.top a:hover { text-decoration: underline; }
+h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.15; margin: .25rem 0 .75rem; font-weight: 700; text-wrap: balance; }
+.take { font-size: 1.1rem; max-width: 64ch; margin: 0; }
+.take b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.meta { font-size: .85rem; color: var(--muted); margin: .5rem 0 0; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; min-width: 0; }
+h2 { font-size: 1.1rem; margin: 0; font-weight: 600; }
+.note { font-size: .85rem; color: var(--muted); margin: .25rem 0 0; }
+.tablebox { overflow-x: auto; margin-top: .75rem; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; min-width: 44rem; }
+th { text-align: right; font-weight: 600; color: var(--muted); padding: .5rem; border-bottom: 1px solid var(--line); vertical-align: bottom; font-size: .8rem; }
+th small { display: block; font-weight: 400; }
+td { text-align: right; padding: .55rem .5rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--panel); }
+td .v { font-weight: 600; }
+td .c { display: block; font-size: .78rem; color: var(--muted); }
+tr.sel td { background: var(--chip); }
+tr.aus td { font-weight: 600; border-top: 2px solid var(--line); }
+tbody tr { cursor: pointer; }
+.flag { color: var(--warn); }
+.picker { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.picker button { font: inherit; font-size: .9rem; padding: .35rem .8rem; border-radius: 999px; border: 1px solid var(--line);
+                 background: var(--panel); color: var(--ink); cursor: pointer; }
+.picker button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--panel); font-weight: 600; }
+.picker button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 1rem; margin-top: 1rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; list-style: none; margin: .5rem 0 0; padding: 0; font-size: .85rem; color: var(--muted); }
+.legend span { display: inline-block; width: 12px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: 3px; }
+.legend span.sq { height: 10px; width: 10px; vertical-align: -1px; }
+.chart { position: relative; min-height: 210px; margin-top: .75rem; }
+.chart svg text { fill: var(--muted); font-size: 12px; font-family: var(--font); }
+.tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+       box-shadow: 0 4px 14px rgba(0,0,0,.12); padding: .4rem .6rem; font-size: .8rem; white-space: nowrap; z-index: 2; font-variant-numeric: tabular-nums; }
+.tip .d { color: var(--muted); }
+.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1rem 2rem; margin: .75rem 0 0; }
+dt { font-weight: 600; }
+dd { margin: .2rem 0 0; color: var(--muted); font-size: .9rem; }
+footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 1rem; display: grid; gap: .5rem; }
+footer p { margin: 0; max-width: 95ch; }
+footer a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="top"><p class="brand">Inspired Money</p><a href="/">Perth weekly view →</a></div>
+    <h1>Australia Market Pulse</h1>
+    <p class="take" id="take">Loading the latest ABS figures…</p>
+    <p class="meta" id="meta">Housing, lending, building and jobs figures for every state and territory from the Australian Bureau of Statistics.</p>
+  </header>
+
+  <section class="card" id="scorecard">
+    <h2>State by state</h2>
+    <p class="note">Latest figure, with the change on a year earlier underneath. Capital city sales use the latest complete quarter, because the newest one is still filling in. Tap a row to see that state's charts below.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr>
+          <th>State</th>
+          <th>Mean dwelling price<small id="h-price"></small></th>
+          <th>Capital city median house<small id="h-median"></small></th>
+          <th>Capital city sales<small id="h-sales"></small></th>
+          <th>New home loans<small id="h-loans"></small></th>
+          <th>First home buyer loans<small id="h-fhb"></small></th>
+          <th>Dwellings approved<small id="h-appr">last 12 months</small></th>
+          <th>Unemployment<small id="h-unemp"></small></th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="state">
+    <h2 id="state-title">State detail</h2>
+    <div class="picker" id="picker" role="group" aria-label="Choose a state or territory"></div>
+    <div class="grid">
+      <article class="card">
+        <h2>Mean dwelling price</h2>
+        <p class="note">Average value of all homes, houses and units, each quarter.</p>
+        <div class="chart" id="c-price"></div>
+      </article>
+      <article class="card">
+        <h2>New home loans each quarter</h2>
+        <p class="note">Loans to buy or build a home, seasonally adjusted. Excludes refinancing.</p>
+        <ul class="legend"><li><span style="background:var(--accent)"></span>Owner-occupiers</li><li><span style="background:var(--accent-2)"></span>Investors</li></ul>
+        <div class="chart" id="c-loans"></div>
+      </article>
+      <article class="card">
+        <h2>Dwellings approved</h2>
+        <p class="note">New homes approved for building each month. Bars are months; the line is the 12-month average.</p>
+        <div class="chart" id="c-appr"></div>
+      </article>
+      <article class="card">
+        <h2>Unemployment rate</h2>
+        <p class="note" id="unemp-note">Seasonally adjusted, with the national rate for comparison.</p>
+        <ul class="legend"><li><span style="background:var(--accent)"></span><b id="lg-state">State</b></li><li><span style="background:var(--bar)"></span>Australia</li></ul>
+        <div class="chart" id="c-unemp"></div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to read this</h2>
+    <dl>
+      <div><dt>Mean dwelling price</dt><dd>The total value of all homes in a state divided by the number of homes. It moves with the whole housing stock, not just the homes that sold.</dd></div>
+      <div><dt>Capital city median house and sales</dt><dd>The middle price, and the number, of established houses and units that changed hands in the capital city. The ABS revises the latest quarter up as late settlements arrive, so the newest sales count often understates the final figure.</dd></div>
+      <div><dt>New home loans</dt><dd>Loans committed to owner-occupiers and investors to buy or build a home. A leading sign of demand: loans are approved before purchases settle.</dd></div>
+      <div><dt>Dwellings approved and unemployment</dt><dd>Approvals show the supply coming in the next one to three years. Unemployment shows whether buyers keep their incomes, which decides whether a slowdown stays orderly.</dd></div>
+    </dl>
+  </section>
+
+  <footer>
+    <p>Source: Australian Bureau of Statistics: Total Value of Dwellings; Residential Dwellings: Values, Mean Price and Number; Lending Indicators; Building Approvals; Labour Force. Used under a <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">Creative Commons Attribution 4.0</a> licence. Inspired Money has calculated the changes shown.</p>
+    <p>General information only. It does not take into account your objectives, financial situation or needs, and is not financial or property advice. FML Financial Solutions Pty Ltd ACN 148 937 222 trading as Inspired Money is a Corporate Authorised Representative of Inspired Financial Group, AFSL 494196.</p>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+(() => {
+  const ORDER = ['NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT', 'NT'];
+  const FULL = { NSW: 'New South Wales', VIC: 'Victoria', QLD: 'Queensland', WA: 'Western Australia', SA: 'South Australia', TAS: 'Tasmania', ACT: 'Australian Capital Territory', NT: 'Northern Territory', Australia: 'Australia' };
+  const CAP = { NSW: 'Sydney', VIC: 'Melbourne', QLD: 'Brisbane', WA: 'Perth', SA: 'Adelaide', TAS: 'Hobart', ACT: 'Canberra', NT: 'Darwin' };
+  const $ = (id) => document.getElementById(id);
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const fmtN = d3.format(','), fmt1 = d3.format('.1f');
+  const money = (k) => (k >= 1000 ? '$' + (k / 1000).toFixed(2) + 'm' : '$' + Math.round(k) + 'k');
+  const pct = (a, b) => (a / b - 1) * 100;
+  const sgn = (v, unit = '%', dp = 1) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(dp) + unit;
+  const qDate = (p) => { const [y, q] = p.split('-Q'); return new Date(Date.UTC(+y, (+q - 1) * 3 + 2, 15)); };
+  const mDate = (p) => new Date(Date.UTC(+p.slice(0, 4), +p.slice(5, 7) - 1, 15));
+  const qLabel = (p) => { const [y, q] = p.split('-Q'); return ['March', 'June', 'September', 'December'][+q - 1] + ' quarter ' + y; };
+  const mLabel = (p) => d3.utcFormat('%B %Y')(mDate(p));
+  const qShort = (p) => { const [y, q] = p.split('-Q'); return ['Mar', 'Jun', 'Sep', 'Dec'][+q - 1] + ' ' + y; };
+  let D, sel = 'WA';
+
+  const last = (s) => s[s.length - 1];
+  const yago = (s, n) => s[s.length - 1 - n];
+  const sumLast = (s, n, off = 0) => d3.sum(s.slice(s.length - n - off, s.length - off), (d) => d[1]);
+
+  function stats(st) {
+    const S = D.series, o = {};
+    const mp = S.meanPrice[st]; o.price = last(mp)[1]; o.priceChg = pct(o.price, yago(mp, 4)[1]);
+    if (S.houseMedian[st]) { const m = S.houseMedian[st]; o.median = last(m)[1]; o.medianChg = pct(o.median, yago(m, 4)[1]); }
+    if (S.transfers[st]) { const t = S.transfers[st].slice(0, -1); o.sales = last(t)[1]; o.salesChg = pct(o.sales, yago(t, 4)[1]); }
+    if (st === 'Australia') {
+      const tot = ORDER.reduce((a, s) => a + yago(S.transfers[s], 1)[1], 0), prev = ORDER.reduce((a, s) => a + yago(S.transfers[s], 5)[1], 0);
+      o.sales = tot; o.salesChg = pct(tot, prev);
+    }
+    const oo = S.loansOO[st], inv = S.loansInv[st];
+    o.loans = last(oo)[1] + last(inv)[1]; o.loansChg = pct(o.loans, yago(oo, 4)[1] + yago(inv, 4)[1]);
+    const f = S.loansFHB[st]; o.fhb = last(f)[1]; o.fhbChg = pct(o.fhb, yago(f, 4)[1]);
+    const a = S.approvals[st]; o.appr = sumLast(a, 12); o.apprChg = pct(o.appr, sumLast(a, 12, 12));
+    const u = S.unemployment[st], r1 = (v) => Math.round(v * 10) / 10; o.unemp = r1(last(u)[1]); o.unempChg = r1(o.unemp - r1(yago(u, 12)[1]));
+    return o;
+  }
+
+  function cell(tr, v, c, cls) {
+    const td = document.createElement('td');
+    const a = document.createElement('span'); a.className = 'v' + (cls ? ' ' + cls : ''); a.textContent = v; td.append(a);
+    if (c != null) { const b = document.createElement('span'); b.className = 'c'; b.textContent = c; td.append(b); }
+    tr.append(td);
+  }
+
+  function table() {
+    const tb = $('tbody'); tb.replaceChildren();
+    [...ORDER, 'Australia'].forEach((st) => {
+      const o = stats(st), tr = document.createElement('tr');
+      if (st === 'Australia') tr.className = 'aus'; else { tr.dataset.st = st; if (st === sel) tr.className = 'sel'; }
+      const th = document.createElement('td'); th.textContent = st === 'Australia' ? 'Australia' : st; tr.append(th);
+      cell(tr, money(o.price), sgn(o.priceChg));
+      if (o.median != null) cell(tr, money(o.median), sgn(o.medianChg) + ' · ' + CAP[st]); else cell(tr, '—', null);
+      cell(tr, fmtN(o.sales), sgn(o.salesChg));
+      cell(tr, fmtN(Math.round(o.loans)), sgn(o.loansChg));
+      cell(tr, fmtN(Math.round(o.fhb)), sgn(o.fhbChg));
+      cell(tr, fmtN(Math.round(o.appr)), sgn(o.apprChg));
+      cell(tr, fmt1(o.unemp) + '%', sgn(o.unempChg, ' pts'), o.unemp >= 5 ? 'flag' : '');
+      tb.append(tr);
+    });
+  }
+
+  function summary() {
+    const a = stats('Australia'), L = D.latest;
+    const hi = ORDER.map((s) => [s, stats(s).unemp]).filter(([, v]) => v >= 5);
+    const rise = ORDER.map((s) => [s, stats(s).priceChg]).sort((x, y) => y[1] - x[1]);
+    const t = $('take'); t.replaceChildren();
+    const add = (s, b) => { const el = document.createElement(b ? 'b' : 'span'); el.textContent = s; t.append(el); };
+    add('In the ' + qLabel(L.meanPrice) + ', the average Australian home was worth '); add(money(a.price), 1);
+    add(', ' + (a.priceChg >= 0 ? 'up ' : 'down ')); add(fmt1(Math.abs(a.priceChg)) + '%', 1); add(' on a year earlier. ');
+    add(FULL[rise[0][0]], 1); add(' rose fastest (' + sgn(rise[0][1]) + ') and '); add(FULL[rise[rise.length - 1][0]], 1);
+    add(' slowest (' + sgn(rise[rise.length - 1][1]) + '). National unemployment was '); add(fmt1(a.unemp) + '%', 1); add(' in ' + mLabel(L.unemployment));
+    if (hi.length) { add(', with '); add(hi.map(([s]) => FULL[s]).join(' and '), 1); add(' at or above 5%.'); } else add('.');
+    const sq = D.series.transfers.NSW; $('meta').textContent = 'Prices and loans to the ' + qLabel(L.meanPrice) + '; capital city sales to the ' + qLabel(sq[sq.length - 2][0]) + '; approvals and unemployment to ' + mLabel(L.unemployment) + '. Changes compare with a year earlier. Refreshed automatically when the ABS publishes.';
+    $('h-price').textContent = qShort(L.meanPrice); $('h-median').textContent = qShort(L.houseMedian); const sp = D.series.transfers.NSW; $('h-sales').textContent = qShort(sp[sp.length - 2][0]);
+    $('h-loans').textContent = qShort(L.loansOO); $('h-fhb').textContent = qShort(L.loansFHB); $('h-unemp').textContent = mLabel(L.unemployment);
+  }
+
+  function chart(el, { series, bars = null, yFmt = fmtN, zero = true, ref = null, height = 210 }) {
+    el.replaceChildren();
+    const W = Math.max(280, el.clientWidth), H = height;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img');
+    const all = [...series.flatMap((s) => s.pts), ...(bars ? bars.pts : [])];
+    const ext = d3.extent(all, (d) => d.v);
+    const lo = zero ? 0 : Math.min(ext[0], ref ?? Infinity) * 0.9, hi = Math.max(ext[1], ref ?? -Infinity) * 1.06;
+    const y = d3.scaleLinear([lo, hi], [H - 22, 10]).nice();
+    const ticks = y.ticks(4);
+    const probe = svg.append('g');
+    const tw = d3.max(ticks, (t) => probe.append('text').text(yFmt(t)).node().getComputedTextLength()); probe.remove();
+    const ml = Math.ceil(tw) + 10, mr = 12;
+    const dates = d3.extent(all, (d) => d.d);
+    const x = d3.scaleUtc(dates, [ml, W - mr]);
+    ticks.forEach((t) => {
+      svg.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(t)).attr('y2', y(t)).attr('stroke', css('--grid'));
+      svg.append('text').attr('x', ml - 8).attr('y', y(t)).attr('dy', '0.32em').attr('text-anchor', 'end').text(yFmt(t));
+    });
+    x.ticks(d3.utcYear.every(W < 520 ? 2 : 1)).forEach((t) => svg.append('text').attr('x', x(t)).attr('y', H - 4).attr('text-anchor', 'middle').text(d3.utcFormat('%Y')(t)));
+    if (ref != null) {
+      svg.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(ref)).attr('y2', y(ref)).attr('stroke', css('--warn')).attr('stroke-dasharray', '4 4');
+      svg.append('text').attr('x', W - mr).attr('y', y(ref) - 5).attr('text-anchor', 'end').style('fill', css('--warn')).text(ref + '%');
+    }
+    if (bars) {
+      const bw = Math.max(1, (W - ml - mr) / bars.pts.length - 1);
+      svg.append('g').selectAll('rect').data(bars.pts).join('rect').attr('x', (d) => x(d.d) - bw / 2).attr('width', bw)
+        .attr('y', (d) => y(d.v)).attr('height', (d) => y(lo) - y(d.v)).attr('fill', css('--bar'));
+    }
+    series.forEach((s) => svg.append('path').datum(s.pts).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', s.width || 2)
+      .attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round').attr('d', d3.line().x((d) => x(d.d)).y((d) => y(d.v))));
+    series.forEach((s) => { const l = s.pts[s.pts.length - 1]; svg.append('circle').attr('cx', x(l.d)).attr('cy', y(l.v)).attr('r', 4).attr('fill', s.color).attr('stroke', css('--panel')).attr('stroke-width', 2); });
+    const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; el.append(tip);
+    const rule = svg.append('line').attr('y1', 10).attr('y2', H - 22).attr('stroke', css('--line')).style('opacity', 0);
+    const base = (bars || series[0]).pts;
+    const xs = base.map((d) => x(d.d));
+    const all2 = [...(bars ? [{ ...bars, color: css('--bar') }] : []), ...series];
+    const move = (ev) => {
+      const [mx] = d3.pointer(ev); const i = d3.minIndex(xs, (v) => Math.abs(v - mx)); const p = base[i];
+      rule.attr('x1', xs[i]).attr('x2', xs[i]).style('opacity', 1);
+      tip.replaceChildren();
+      const d = document.createElement('div'); d.className = 'd'; d.textContent = p.label; tip.append(d);
+      all2.forEach((s) => {
+        const pt = s.pts.find((q) => q.key === p.key); if (!pt) return;
+        const ln = document.createElement('div');
+        if (all2.length > 1) { const sw = document.createElement('i'); sw.style.background = s.color; ln.append(sw); }
+        ln.append(document.createTextNode(s.name + ': ' + yFmt(pt.v))); tip.append(ln);
+      });
+      tip.hidden = false;
+      const bw = el.getBoundingClientRect().width, left = (xs[i] / W) * bw, w = tip.offsetWidth;
+      tip.style.left = Math.max(0, left + 12 + w > bw ? left - w - 12 : left + 12) + 'px'; tip.style.top = '8px';
+    };
+    svg.append('rect').attr('x', ml).attr('y', 0).attr('width', W - ml - mr).attr('height', H).attr('fill', 'transparent')
+      .on('pointermove', move).on('pointerdown', move).on('pointerleave', () => { tip.hidden = true; rule.style('opacity', 0); });
+  }
+
+  const Q = (s) => s.map(([p, v]) => ({ key: p, d: qDate(p), v, label: qLabel(p) }));
+  const M = (s) => s.map(([p, v]) => ({ key: p, d: mDate(p), v, label: mLabel(p) }));
+
+  function detail() {
+    const S = D.series, A = css('--accent'), B = css('--accent-2');
+    $('state-title').textContent = FULL[sel];
+    $('lg-state').textContent = FULL[sel];
+    $('unemp-note').textContent = (D.unemploymentTrendOnly || []).includes(sel)
+      ? 'Trend estimate (the ABS does not publish a seasonally adjusted rate for ' + FULL[sel] + '), with the national rate for comparison.'
+      : 'Seasonally adjusted, with the national rate for comparison.';
+    chart($('c-price'), { series: [{ name: FULL[sel], color: A, pts: Q(S.meanPrice[sel]) }], yFmt: money, zero: false });
+    chart($('c-loans'), { series: [{ name: 'Owner-occupiers', color: A, pts: Q(S.loansOO[sel]) }, { name: 'Investors', color: B, pts: Q(S.loansInv[sel]) }] });
+    const ap = M(S.approvals[sel]);
+    const avg = ap.map((p, i) => (i < 11 ? null : { ...p, v: Math.round(d3.mean(ap.slice(i - 11, i + 1), (q) => q.v)) })).filter(Boolean);
+    chart($('c-appr'), { bars: { name: 'Approved', pts: ap }, series: [{ name: '12-month average', color: A, pts: avg }] });
+    chart($('c-unemp'), { series: [{ name: 'Australia', color: css('--bar'), pts: M(S.unemployment.Australia) }, { name: FULL[sel], color: A, pts: M(S.unemployment[sel]) }],
+      yFmt: (v) => fmt1(v) + '%', zero: false, ref: 5 });
+  }
+
+  function picker() {
+    const p = $('picker'); p.replaceChildren();
+    ORDER.forEach((st) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = st; b.setAttribute('aria-pressed', st === sel ? 'true' : 'false');
+      b.addEventListener('click', () => choose(st)); p.append(b);
+    });
+  }
+
+  function choose(st, scroll) {
+    sel = st;
+    try { history.replaceState(null, '', '#' + st.toLowerCase()); } catch (e) {}
+    picker(); table(); detail();
+    if (scroll) $('state').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  $('tbody').addEventListener('click', (e) => { const tr = e.target.closest('tr[data-st]'); if (tr) choose(tr.dataset.st, true); });
+
+  const fromHash = () => { const h = location.hash.slice(1).toUpperCase(); return ORDER.includes(h) ? h : null; };
+  fetch('../data/australia.json', { cache: 'no-cache' })
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then((d) => { D = d; sel = fromHash() || 'WA'; summary(); choose(sel); })
+    .catch(() => { $('take').textContent = 'The latest figures could not be loaded. Please refresh the page or try again later.'; });
+  window.addEventListener('hashchange', () => { const h = fromHash(); if (h && D && h !== sel) choose(h); });
+  let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => D && detail(), 150); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => D && (table(), detail()));
+})();
+</script>
+</body>
+</html>
