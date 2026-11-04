@@ -2,25 +2,291 @@
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Perth Market Pulse</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Perth Market Pulse | Inspired Money</title>
+<meta name="description" content="A weekly read on Perth's property market from REIWA figures: homes for sale, sales, rentals and weeks of stock.">
 <style>
-:root { --bg: #f6f7f5; --fg: #1d2421; --muted: #5d6762; --line: #d9ddda; color-scheme: light; }
-@media (prefers-color-scheme: dark) { :root { --bg: #151a18; --fg: #eef1ef; --muted: #a4ada8; --line: #2c3430; color-scheme: dark; } }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
-main { max-width: 40rem; margin: 0 auto; padding: 18vh max(20px, env(safe-area-inset-left, 0px)) 4rem; }
-h1 { font: 400 2.2rem/1.2 Georgia, "Times New Roman", serif; margin: 0 0 .75rem; }
-p { margin: 0 0 1rem; color: var(--muted); }
-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .8rem; color: var(--muted); }
+/* Layout: one centred column; summary sentence, four tiles, charts in a two-up grid, table, definitions, footer. */
+:root {
+  --bg: #f5f6f3; --panel: #ffffff; --ink: #1d2622; --muted: #5b6661; --line: #dfe3df;
+  --accent: #2c7a57; --accent-2: #c46a2f; --bar: #c9d1cc; --grid: #e9ece9;
+  --font: "Avenir Next LT Pro", "Avenir Next", Avenir, "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #121715; --panel: #1a211e; --ink: #ecf0ed; --muted: #a2ada7; --line: #2b3430;
+          --accent: #5cbf8e; --accent-2: #e59a63; --bar: #3a4540; --grid: #242c28; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 72rem; margin: 0 auto; padding-block: 2.5rem 3rem;
+        padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+        display: grid; gap: 2rem; }
+.brand { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0; }
+h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.15; margin: .25rem 0 .75rem; font-weight: 700; text-wrap: balance; }
+.take { font-size: 1.1rem; max-width: 62ch; margin: 0; }
+.take b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.meta { font-size: .85rem; color: var(--muted); margin: .5rem 0 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1rem; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; min-width: 0; }
+.tile .label { font-size: .85rem; color: var(--muted); margin: 0; }
+.tile .big { font-size: 2.4rem; line-height: 1.1; font-weight: 700; margin: .3rem 0 .2rem; font-variant-numeric: tabular-nums; }
+.tile .sub { font-size: .85rem; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; }
+.spark { height: 40px; margin-top: .5rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 1rem; }
+.wide { grid-column: 1 / -1; }
+.card h2, section > h2 { font-size: 1.1rem; margin: 0; font-weight: 600; }
+.note { font-size: .85rem; color: var(--muted); margin: .25rem 0 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; list-style: none; margin: .5rem 0 0; padding: 0; font-size: .85rem; color: var(--muted); }
+.legend span { display: inline-block; width: 12px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: 3px; }
+.legend span.sq { height: 10px; width: 10px; vertical-align: -1px; }
+.chart { position: relative; min-height: 220px; margin-top: .75rem; }
+.chart svg text { fill: var(--muted); font-size: 12px; font-family: var(--font); }
+.tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+       box-shadow: 0 4px 14px rgba(0,0,0,.12); padding: .4rem .6rem; font-size: .8rem; white-space: nowrap; z-index: 2; font-variant-numeric: tabular-nums; }
+.tip .d { color: var(--muted); }
+.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+.tablebox { max-height: 26rem; overflow: auto; margin-top: .75rem; }
+table { width: 100%; border-collapse: collapse; font-size: .85rem; font-variant-numeric: tabular-nums; }
+th { position: sticky; top: 0; background: var(--panel); text-align: right; font-weight: 600; color: var(--muted); padding: .45rem .5rem; border-bottom: 1px solid var(--line); }
+td { text-align: right; padding: .45rem .5rem; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child, .txt { text-align: left; }
+@media (max-width: 640px) { .opt { display: none; } }
+dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1rem 2rem; margin: .75rem 0 0; }
+dt { font-weight: 600; }
+dd { margin: .2rem 0 0; color: var(--muted); font-size: .9rem; }
+footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 1rem; display: grid; gap: .5rem; }
+footer p { margin: 0; max-width: 95ch; }
+footer a { color: inherit; }
+.err { color: var(--muted); font-size: .9rem; }
 </style>
 </head>
 <body>
-<main>
-<h1>Perth Market Pulse</h1>
-<p>A weekly read on the Perth property market from Inspired Money. Coming soon.</p>
-<p>If you can see this page at market.inspiredmoney.com.au, the test has worked.</p>
-<footer>FML Financial Solutions Pty Ltd ACN 148 937 222 trading as Inspired Money, a Corporate Authorised Representative of Inspired Financial Group, AFSL 494196.</footer>
-</main>
+<div class="wrap">
+  <header>
+    <p class="brand">Inspired Money</p>
+    <h1>Perth Market Pulse</h1>
+    <p class="take" id="take">Loading the latest REIWA figures…</p>
+    <p class="meta">Updated every Tuesday from REIWA's Perth weekly market snapshot. Changes compare the latest week with four weeks earlier.</p>
+  </header>
+
+  <section class="tiles" aria-label="Headline figures">
+    <article class="card tile"><p class="label">Weeks of stock: sales</p><p class="big" id="k-wos">—</p><p class="sub"><span id="k-woschg">—</span> weeks on four weeks earlier</p><div class="spark" id="s-wos"></div></article>
+    <article class="card tile"><p class="label">Homes for sale</p><p class="big" id="k-forsale">—</p><p class="sub"><span id="k-forsalechg">—</span> on four weeks earlier</p><div class="spark" id="s-forsale"></div></article>
+    <article class="card tile"><p class="label">Sales per week, 4-week average</p><p class="big" id="k-sales">—</p><p class="sub"><span id="k-saleschg">—</span> on four weeks earlier</p><div class="spark" id="s-sales"></div></article>
+    <article class="card tile"><p class="label">Weeks of stock: rentals</p><p class="big" id="k-rwos">—</p><p class="sub"><span id="k-rwoschg">—</span> weeks on four weeks earlier</p><div class="spark" id="s-rwos"></div></article>
+  </section>
+
+  <section class="grid" aria-label="Trends">
+    <article class="card wide">
+      <h2>Weeks of stock</h2>
+      <p class="note">How many weeks the homes on the market would take to sell, or lease, at the pace of the last four weeks. More weeks favours buyers and tenants.</p>
+      <ul class="legend"><li><span style="background:var(--accent)"></span>Homes for sale</li><li><span style="background:var(--accent-2)"></span>Homes for rent</li></ul>
+      <div class="chart" id="c-stock"></div>
+    </article>
+    <article class="card">
+      <h2>Homes for sale</h2>
+      <p class="note">Properties listed for sale in Perth at the end of each week.</p>
+      <div class="chart" id="c-forsale"></div>
+    </article>
+    <article class="card">
+      <h2>Sales each week</h2>
+      <p class="note">Sales reported by REIWA members. Bars are weeks; the line is the 4-week average.</p>
+      <div class="chart" id="c-sales"></div>
+    </article>
+    <article class="card">
+      <h2>Rental market</h2>
+      <p class="note">Homes listed for rent at the end of each week, and homes leased during it.</p>
+      <ul class="legend"><li><span style="background:var(--accent-2)"></span>For rent</li><li><span class="sq" style="background:var(--bar)"></span>Leased</li></ul>
+      <div class="chart" id="c-rent"></div>
+    </article>
+    <article class="card">
+      <h2>Week by week</h2>
+      <p class="note">Newest first. Highest and lowest sale are as REIWA reported them.</p>
+      <div class="tablebox">
+        <table>
+          <thead><tr><th>Week ending</th><th>Sales</th><th>For sale</th><th class="opt">For rent</th><th class="opt">Leased</th><th class="txt opt">Highest sale</th><th class="txt opt">Lowest sale</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <h2>How to read this</h2>
+    <dl>
+      <div><dt>Weeks of stock: sales</dt><dd>Homes for sale divided by the average weekly sales over the last four weeks. A rising figure means stock is building faster than buyers are absorbing it.</dd></div>
+      <div><dt>Weeks of stock: rentals</dt><dd>Homes for rent divided by the average homes leased per week over the last four weeks. A rising figure means more choice for tenants and longer vacancies for landlords.</dd></div>
+      <div><dt>Why four-week averages</dt><dd>Weekly sales swing by 15% or more from one week to the next. Averaging four weeks shows the trend instead of the noise.</dd></div>
+      <div><dt>Where the numbers come from</dt><dd>REIWA's weekly Perth market snapshot. Sales are those reported by REIWA members, so they undercount the whole market but track its direction.</dd></div>
+    </dl>
+  </section>
+
+  <footer>
+    <p>Source: Real Estate Institute of Western Australia (REIWA), <a href="https://reiwa.com.au/news/" rel="noopener">Perth weekly market snapshots</a>. Figures are REIWA's. Where a snapshot's body text disagreed with its headline (week ending 25/10/2026), the headline figure is used.</p>
+    <p>General information only. It does not take into account your objectives, financial situation or needs, and is not financial or property advice. FML Financial Solutions Pty Ltd ACN 148 937 222 trading as Inspired Money is a Corporate Authorised Representative of Inspired Financial Group, AFSL 494196.</p>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+(() => {
+  const fmtN = d3.format(','), fmt1 = d3.format('.1f');
+  const signPct = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + fmt1(Math.abs(v)) + '%';
+  const signNum = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + fmt1(Math.abs(v));
+  const parse = d3.utcParse('%Y-%m-%d'), dmy = d3.utcFormat('%d/%m/%Y'), mon = d3.utcFormat('%b');
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const $ = (id) => document.getElementById(id);
+  let rows = [];
+
+  function derive(weekly) {
+    const w = weekly.map((r) => ({ ...r, sales: +r.sales, forSale: +r.forSale, forRent: +r.forRent, leased: +r.leased, _d: parse(r.week) }))
+      .sort((a, b) => (a.week < b.week ? -1 : 1));
+    return w.map((r, i) => {
+      if (i < 3) return { ...r, sales4: null, leased4: null, weeksOfStock: null, rentalWeeks: null };
+      const win = w.slice(i - 3, i + 1);
+      const s4 = d3.mean(win, (d) => d.sales), l4 = d3.mean(win, (d) => d.leased);
+      return { ...r, sales4: Math.round(s4), leased4: Math.round(l4),
+        weeksOfStock: Math.round((r.forSale / s4) * 10) / 10, rentalWeeks: Math.round((r.forRent / l4) * 10) / 10 };
+    });
+  }
+
+  function summary() {
+    const n = rows.length, a = rows[n - 1], b = rows[n - 5], first = rows.find((r) => r.weeksOfStock != null);
+    const pct = (x, y) => Math.round((x / y - 1) * 1000) / 10;
+    $('take').innerHTML = '';
+    const t = $('take');
+    const add = (s, bold) => { const el = document.createElement(bold ? 'b' : 'span'); el.textContent = s; t.append(el); };
+    add('Perth had '); add(fmtN(a.forSale), 1); add(' homes for sale in the week ending '); add(dmy(a._d), 1);
+    add(', a change of '); add(signPct(pct(a.forSale, b.forSale)), 1); add(' on four weeks earlier. At the current pace of sales that is ');
+    add(fmt1(a.weeksOfStock), 1); add(' weeks of stock, compared with '); add(fmt1(first.weeksOfStock), 1);
+    add(' weeks in the four weeks to '); add(dmy(first._d), 1); add('.');
+    $('k-wos').textContent = fmt1(a.weeksOfStock); $('k-woschg').textContent = signNum(Math.round((a.weeksOfStock - b.weeksOfStock) * 10) / 10);
+    $('k-forsale').textContent = fmtN(a.forSale); $('k-forsalechg').textContent = signPct(pct(a.forSale, b.forSale));
+    $('k-sales').textContent = fmtN(a.sales4); $('k-saleschg').textContent = signPct(pct(a.sales4, b.sales4));
+    $('k-rwos').textContent = fmt1(a.rentalWeeks); $('k-rwoschg').textContent = signNum(Math.round((a.rentalWeeks - b.rentalWeeks) * 10) / 10);
+  }
+
+  function spark(id, key, color) {
+    const el = $(id); el.replaceChildren();
+    const pts = rows.filter((r) => r[key] != null);
+    const W = Math.max(120, el.clientWidth), H = 40;
+    const x = d3.scaleUtc(d3.extent(pts, (d) => d._d), [3, W - 5]);
+    const y = d3.scaleLinear(d3.extent(pts, (d) => d[key]), [H - 5, 5]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`).attr('aria-hidden', 'true');
+    svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round')
+      .attr('d', d3.line().x((d) => x(d._d)).y((d) => y(d[key])));
+    const l = pts[pts.length - 1];
+    svg.append('circle').attr('cx', x(l._d)).attr('cy', y(l[key])).attr('r', 3).attr('fill', color);
+  }
+
+  function chart(el, data, { lines = [], bars = null, area = false, yFmt = fmtN, endLabels = false, height = 220 }) {
+    el.replaceChildren();
+    const W = Math.max(280, el.clientWidth), H = height;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img');
+    const vals = [];
+    lines.forEach((s) => data.forEach((r) => { if (r[s.key] != null) vals.push(r[s.key]); }));
+    if (bars) data.forEach((r) => vals.push(r[bars.key]));
+    const y = d3.scaleLinear([0, d3.max(vals) * 1.08], [H - 22, 10]).nice();
+    const ticks = y.ticks(4);
+    const probe = svg.append('g');
+    const tw = d3.max(ticks, (t) => probe.append('text').text(yFmt(t)).node().getComputedTextLength());
+    let ew = 0;
+    if (endLabels) { const l = data[data.length - 1]; lines.forEach((s) => { ew = Math.max(ew, probe.append('text').text(s.name + ' ' + yFmt(l[s.key])).node().getComputedTextLength()); }); }
+    probe.remove();
+    const ml = Math.ceil(tw) + 10, mr = endLabels ? Math.ceil(ew) + 14 : 10;
+    let xPos, band = null;
+    if (bars) { band = d3.scaleBand(data.map((r) => r.week), [ml, W - mr]).padding(0.25); xPos = (r) => band(r.week) + band.bandwidth() / 2; }
+    else { const x = d3.scaleUtc(d3.extent(data, (r) => r._d), [ml, W - mr]); xPos = (r) => x(r._d); }
+    ticks.forEach((t) => {
+      svg.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(t)).attr('y2', y(t)).attr('stroke', t === 0 ? css('--line') : css('--grid'));
+      svg.append('text').attr('x', ml - 8).attr('y', y(t)).attr('dy', '0.32em').attr('text-anchor', 'end').text(yFmt(t));
+    });
+    const months = data.filter((r, i) => i === 0 || r.week.slice(5, 7) !== data[i - 1].week.slice(5, 7));
+    const step = W < 520 ? 2 : 1;
+    let lastX = -Infinity;
+    months.forEach((r, i) => {
+      if (i % step || xPos(r) - lastX < 40) return;
+      lastX = xPos(r);
+      svg.append('text').attr('x', xPos(r)).attr('y', H - 4).attr('text-anchor', i === 0 ? 'start' : 'middle').text(mon(r._d));
+    });
+    if (bars) {
+      svg.append('g').selectAll('rect').data(data).join('rect').attr('x', (r) => band(r.week)).attr('width', band.bandwidth())
+        .attr('y', (r) => y(r[bars.key])).attr('height', (r) => y(0) - y(r[bars.key])).attr('rx', Math.min(3, band.bandwidth() / 2)).attr('fill', css('--bar'));
+    }
+    if (area && lines[0]) {
+      const gid = 'g-' + el.id;
+      const g = svg.append('defs').append('linearGradient').attr('id', gid).attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+      [[0, .26], [.25, .16], [.5, .08], [.75, .03], [1, 0]].forEach(([o, a]) => g.append('stop').attr('offset', o).attr('stop-color', lines[0].color).attr('stop-opacity', a));
+      svg.append('path').datum(data).attr('fill', `url(#${gid})`).attr('d', d3.area().x(xPos).y0(y(0)).y1((r) => y(r[lines[0].key])));
+    }
+    lines.forEach((s) => svg.append('path').datum(data.filter((r) => r[s.key] != null)).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2)
+      .attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round').attr('d', d3.line().x(xPos).y((r) => y(r[s.key]))));
+    if (endLabels) {
+      const l = data[data.length - 1];
+      const ys = lines.map((s) => ({ s, y: y(l[s.key]) })).sort((a, b) => a.y - b.y);
+      for (let i = 1; i < ys.length; i++) if (ys[i].y - ys[i - 1].y < 14) ys[i].y = ys[i - 1].y + 14;
+      ys.forEach(({ s, y: yy }) => {
+        svg.append('circle').attr('cx', xPos(l)).attr('cy', y(l[s.key])).attr('r', 4).attr('fill', s.color).attr('stroke', css('--panel')).attr('stroke-width', 2);
+        svg.append('text').attr('x', xPos(l) + 9).attr('y', yy).attr('dy', '0.32em').style('fill', css('--ink')).text(s.name + ' ' + yFmt(l[s.key]));
+      });
+    }
+    const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; el.append(tip);
+    const rule = svg.append('line').attr('y1', 10).attr('y2', H - 22).attr('stroke', css('--line')).style('opacity', 0);
+    const dots = svg.append('g');
+    const series = [...(bars ? [{ ...bars, color: css('--bar') }] : []), ...lines];
+    const xs = data.map(xPos);
+    const move = (ev) => {
+      const [mx] = d3.pointer(ev);
+      const i = d3.minIndex(xs, (v) => Math.abs(v - mx)), r = data[i];
+      rule.attr('x1', xs[i]).attr('x2', xs[i]).style('opacity', 1);
+      dots.selectAll('circle').data(lines.filter((s) => r[s.key] != null)).join('circle').attr('cx', xs[i]).attr('cy', (s) => y(r[s.key])).attr('r', 4).attr('fill', (s) => s.color);
+      tip.replaceChildren();
+      const d = document.createElement('div'); d.className = 'd'; d.textContent = 'Week ending ' + dmy(r._d); tip.append(d);
+      series.forEach((s) => {
+        const ln = document.createElement('div');
+        if (series.length > 1) { const sw = document.createElement('i'); sw.style.background = s.color; ln.append(sw); }
+        ln.append(document.createTextNode(s.name + ': ' + (r[s.key] == null ? 'not enough weeks yet' : yFmt(r[s.key])))); tip.append(ln);
+      });
+      tip.hidden = false;
+      const bw = el.getBoundingClientRect().width, left = (xs[i] / W) * bw, w = tip.offsetWidth;
+      tip.style.left = Math.max(0, left + 12 + w > bw ? left - w - 12 : left + 12) + 'px'; tip.style.top = '8px';
+    };
+    svg.append('rect').attr('x', ml).attr('y', 0).attr('width', W - ml - mr).attr('height', H).attr('fill', 'transparent')
+      .on('pointermove', move).on('pointerdown', move)
+      .on('pointerleave', () => { tip.hidden = true; rule.style('opacity', 0); dots.selectAll('circle').remove(); });
+  }
+
+  function table() {
+    const tb = $('tbody'); tb.replaceChildren();
+    [...rows].reverse().forEach((r) => {
+      const tr = document.createElement('tr');
+      [[dmy(r._d), ''], [fmtN(r.sales), ''], [fmtN(r.forSale), ''], [fmtN(r.forRent), 'opt'], [fmtN(r.leased), 'opt'], [r.highestSale || '', 'txt opt'], [r.lowestSale || '', 'txt opt']]
+        .forEach(([t, c]) => { const td = document.createElement('td'); if (c) td.className = c; td.textContent = t; tr.append(td); });
+      tb.append(tr);
+    });
+  }
+
+  function draw() {
+    if (!rows.length) return;
+    const A = css('--accent'), B = css('--accent-2');
+    summary();
+    spark('s-wos', 'weeksOfStock', A); spark('s-forsale', 'forSale', A); spark('s-sales', 'sales4', A); spark('s-rwos', 'rentalWeeks', B);
+    chart($('c-stock'), rows.filter((r) => r.weeksOfStock != null), { lines: [{ key: 'weeksOfStock', name: 'Sales', color: A }, { key: 'rentalWeeks', name: 'Rentals', color: B }], yFmt: fmt1, endLabels: true, height: 240 });
+    chart($('c-forsale'), rows, { lines: [{ key: 'forSale', name: 'For sale', color: A }], area: true });
+    chart($('c-sales'), rows, { bars: { key: 'sales', name: 'Sales' }, lines: [{ key: 'sales4', name: '4-week average', color: A }] });
+    chart($('c-rent'), rows, { bars: { key: 'leased', name: 'Leased' }, lines: [{ key: 'forRent', name: 'For rent', color: B }] });
+    table();
+  }
+
+  fetch('data/perth_market_weekly.json', { cache: 'no-cache' })
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then((d) => { rows = derive(d); draw(); })
+    .catch(() => { $('take').textContent = 'The latest figures could not be loaded. Please refresh the page or try again later.'; $('take').className = 'take err'; });
+
+  let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 150); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+</script>
 </body>
 </html>

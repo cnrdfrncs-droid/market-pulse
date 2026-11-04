@@ -1,0 +1,312 @@
+[
+ {
+  "week": "2026-04-05",
+  "sales": 764,
+  "forSale": 3279,
+  "forRent": 1948,
+  "leased": 490,
+  "highestSale": "Peppermint Grove – $7,000,000",
+  "lowestSale": "Fremantle – $460,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-5-april-2026/"
+ },
+ {
+  "week": "2026-04-12",
+  "sales": 625,
+  "forSale": 3669,
+  "forRent": 2099,
+  "leased": 492,
+  "highestSale": "Halls Head – $2,200,000",
+  "lowestSale": "Perth City – $605,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-12-april-2026/"
+ },
+ {
+  "week": "2026-04-19",
+  "sales": 746,
+  "forSale": 3966,
+  "forRent": 2153,
+  "leased": 639,
+  "highestSale": "Trigg – $2,900,000",
+  "lowestSale": "Cockburn Central – $495,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-19-april-2026/"
+ },
+ {
+  "week": "2026-04-26",
+  "sales": 803,
+  "forSale": 4182,
+  "forRent": 2169,
+  "leased": 630,
+  "highestSale": "South Perth – $1,750,000",
+  "lowestSale": "Dudley Park – $353,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-26-april-2026/"
+ },
+ {
+  "week": "2026-05-03",
+  "sales": 694,
+  "forSale": 4459,
+  "forRent": 2233,
+  "leased": 554,
+  "highestSale": "Lesmurdie – $1,850,000",
+  "lowestSale": "Highgate – $505,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-3-may-2026/"
+ },
+ {
+  "week": "2026-05-10",
+  "sales": 884,
+  "forSale": 4601,
+  "forRent": 2246,
+  "leased": 651,
+  "highestSale": "Mount Pleasant – $2,700,000",
+  "lowestSale": "Perth – $612,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-10-may-2026/"
+ },
+ {
+  "week": "2026-05-17",
+  "sales": 732,
+  "forSale": 4809,
+  "forRent": 2304,
+  "leased": 621,
+  "highestSale": "Sorrento – $3,362,000",
+  "lowestSale": "Perth – $370,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-17-may-2026/"
+ },
+ {
+  "week": "2026-05-24",
+  "sales": 687,
+  "forSale": 5088,
+  "forRent": 2330,
+  "leased": 654,
+  "highestSale": "The Vines – $2,500,000",
+  "lowestSale": "Subiaco – $489,800",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-24-may-2026/"
+ },
+ {
+  "week": "2026-05-31",
+  "sales": 685,
+  "forSale": 5330,
+  "forRent": 2320,
+  "leased": 624,
+  "highestSale": "Bedfordale – $1,800,000",
+  "lowestSale": "Mandurah – $425,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-31-may-2026/"
+ },
+ {
+  "week": "2026-06-07",
+  "sales": 631,
+  "forSale": 5574,
+  "forRent": 2356,
+  "leased": 562,
+  "highestSale": "Wannanup – $1,850,000",
+  "lowestSale": "Mandurah – $480,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-7-june-2026/"
+ },
+ {
+  "week": "2026-06-14",
+  "sales": 669,
+  "forSale": 5733,
+  "forRent": 2331,
+  "leased": 661,
+  "highestSale": "Eglinton – $1,610,000",
+  "lowestSale": "Coodanup – $399,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-14-june-2026/"
+ },
+ {
+  "week": "2026-06-21",
+  "sales": 645,
+  "forSale": 5901,
+  "forRent": 2301,
+  "leased": 656,
+  "highestSale": "Cardup – $1,625,000",
+  "lowestSale": "Maylands – $450,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-21-june-2026/"
+ },
+ {
+  "week": "2026-06-28",
+  "sales": 647,
+  "forSale": 6114,
+  "forRent": 2252,
+  "leased": 747,
+  "highestSale": "Southern River – $2,500,000",
+  "lowestSale": "Mandurah – $490,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-28-june-2026/"
+ },
+ {
+  "week": "2026-07-05",
+  "sales": 719,
+  "forSale": 6184,
+  "forRent": 2315,
+  "leased": 623,
+  "highestSale": "Canning Vale – $2,300,000",
+  "lowestSale": "Pinjarra – $555,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-5-july-2026/"
+ },
+ {
+  "week": "2026-07-12",
+  "sales": 689,
+  "forSale": 6333,
+  "forRent": 2326,
+  "leased": 671,
+  "highestSale": "Mosman Park – $2,750,000",
+  "lowestSale": "Perth – $550,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-12-july-2026/"
+ },
+ {
+  "week": "2026-07-19",
+  "sales": 632,
+  "forSale": 6509,
+  "forRent": 2230,
+  "leased": 624,
+  "highestSale": "Claremont – $2,990,000",
+  "lowestSale": "Orelia – $525,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-19-july-2026/"
+ },
+ {
+  "week": "2026-07-26",
+  "sales": 658,
+  "forSale": 6777,
+  "forRent": 2231,
+  "leased": 554,
+  "highestSale": "Claremont – $1,650,000",
+  "lowestSale": "East Perth – $500,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-26-july-2026/"
+ },
+ {
+  "week": "2026-08-02",
+  "sales": 753,
+  "forSale": 6784,
+  "forRent": 2164,
+  "leased": 653,
+  "highestSale": "Carine – $1,640,000",
+  "lowestSale": "Coodanup – $450,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-2-august-2026/"
+ },
+ {
+  "week": "2026-08-09",
+  "sales": 773,
+  "forSale": 6852,
+  "forRent": 2268,
+  "leased": 502,
+  "highestSale": "City Beach – $2,850,000",
+  "lowestSale": "Rockingham – $501,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-9-august-2026/"
+ },
+ {
+  "week": "2026-08-16",
+  "sales": 605,
+  "forSale": 7076,
+  "forRent": 2116,
+  "leased": 742,
+  "highestSale": "The Vines – $1,700,000",
+  "lowestSale": "Wembley – $565,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-16-august-2026/"
+ },
+ {
+  "week": "2026-08-23",
+  "sales": 630,
+  "forSale": 7204,
+  "forRent": 2083,
+  "leased": 656,
+  "highestSale": "Roleystone – $2,400,000",
+  "lowestSale": "Furnissdale – $240,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-23-august-2026/"
+ },
+ {
+  "week": "2026-08-30",
+  "sales": 625,
+  "forSale": 7312,
+  "forRent": 2047,
+  "leased": 664,
+  "highestSale": "Wandi – $2,175,000",
+  "lowestSale": "Joondalup – $470,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-30-august-2026/"
+ },
+ {
+  "week": "2026-09-06",
+  "sales": 699,
+  "forSale": 7352,
+  "forRent": 2023,
+  "leased": 635,
+  "highestSale": "Melville – $1,300,000",
+  "lowestSale": "Subiaco – $517,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-6-september-2026/"
+ },
+ {
+  "week": "2026-09-13",
+  "sales": 600,
+  "forSale": 7565,
+  "forRent": 2029,
+  "leased": 622,
+  "highestSale": "Mundaring – $2,400,000",
+  "lowestSale": "Crawley – $400,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-13-september-2026/"
+ },
+ {
+  "week": "2026-09-20",
+  "sales": 635,
+  "forSale": 7755,
+  "forRent": 1974,
+  "leased": 612,
+  "highestSale": "Booragoon – $1,850,000",
+  "lowestSale": "Dianella – $558,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-20-september-2026/"
+ },
+ {
+  "week": "2026-09-27",
+  "sales": 631,
+  "forSale": 7804,
+  "forRent": 1909,
+  "leased": 649,
+  "highestSale": "Bullsbrook – $1,425,000",
+  "lowestSale": "Wembley – $530,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-27-september-2026/"
+ },
+ {
+  "week": "2026-10-04",
+  "sales": 530,
+  "forSale": 8013,
+  "forRent": 1970,
+  "leased": 457,
+  "highestSale": "Mindarie – $1,360,000",
+  "lowestSale": "Northbridge – $605,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-4-october-2026/"
+ },
+ {
+  "week": "2026-10-11",
+  "sales": 615,
+  "forSale": 8289,
+  "forRent": 1992,
+  "leased": 625,
+  "highestSale": "Gwelup – $2,225,000",
+  "lowestSale": "Furnissdale – $399,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-11-october-2026/"
+ },
+ {
+  "week": "2026-10-18",
+  "sales": 610,
+  "forSale": 8633,
+  "forRent": 2037,
+  "leased": 600,
+  "highestSale": "Carramar – $1,425,000",
+  "lowestSale": "Perth – $550,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-18-october-2026/"
+ },
+ {
+  "week": "2026-10-25",
+  "sales": 690,
+  "forSale": 8971,
+  "forRent": 2109,
+  "leased": 623,
+  "highestSale": "South Perth – $2,650,000",
+  "lowestSale": "Mandurah – $233,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-25-october-2026/"
+ },
+ {
+  "week": "2026-11-01",
+  "sales": 713,
+  "forSale": 9217,
+  "forRent": 2179,
+  "leased": 593,
+  "highestSale": "Como – $2,600,000",
+  "lowestSale": "Warnbro – $540,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-1-november-2026/"
+ }
+]

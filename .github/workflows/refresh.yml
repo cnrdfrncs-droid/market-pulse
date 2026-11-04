@@ -1,0 +1,61 @@
+name: Refresh REIWA data
+
+on:
+  schedule:
+    # Tuesdays 7:33am Perth (Monday 23:33 UTC), after REIWA publishes the week's snapshot
+    - cron: "33 23 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/refresh.yml"
+      - "scripts/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install API Anything (pinned version, sharing off)
+        run: |
+          git clone -q https://github.com/goodnight000/api-anything.git /tmp/api-anything
+          cd /tmp/api-anything
+          git checkout -q e22c3dab9410ca2b24f0dde5731c7834a546581d
+          npm ci --silent
+          npm install -g "$(npm pack --silent | tail -1)"
+          api-anything setup --no-share || true
+          mkdir -p ~/.api-anything/sites
+          cp "$GITHUB_WORKSPACE/scripts/reiwa.json" ~/.api-anything/sites/reiwa.json
+          api-anything call reiwa weeklySnapshot week=1-november-2026 | head -c 200
+
+      - name: Build the weekly data file
+        run: python3 scripts/build_dashboard_data.py
+
+      - name: Cross-check the newest week against REIWA's page
+        run: python3 scripts/crosscheck.py data/perth_market_weekly.json
+
+      - name: Publish if there is a new week
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/perth_market_weekly.json
+          if git diff --cached --quiet; then echo "No new REIWA week."; exit 0; fi
+          git commit -m "Update REIWA weekly data"
+          git push
