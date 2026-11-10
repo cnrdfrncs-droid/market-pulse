@@ -308,5 +308,15 @@
   "highestSale": "Como – $2,600,000",
   "lowestSale": "Warnbro – $540,000",
   "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-1-november-2026/"
+ },
+ {
+  "week": "2026-11-08",
+  "sales": 631,
+  "forSale": 9523,
+  "forRent": 2247,
+  "leased": 610,
+  "highestSale": "Marmion – $3,260,000",
+  "lowestSale": "Perth – $585,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-8-november-2026/"
  }
 ]
