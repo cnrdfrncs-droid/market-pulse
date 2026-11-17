@@ -318,5 +318,15 @@
   "highestSale": "Marmion – $3,260,000",
   "lowestSale": "Perth – $585,000",
   "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-8-november-2026/"
+ },
+ {
+  "week": "2026-11-15",
+  "sales": 594,
+  "forSale": 9786,
+  "forRent": 2453,
+  "leased": 546,
+  "highestSale": "Scarborough – $2,060,000",
+  "lowestSale": "Maylands – $460,000",
+  "source": "https://reiwa.com.au/news/perth-weekly-market-snapshot-for-the-week-ending-15-november-2026/"
  }
 ]
